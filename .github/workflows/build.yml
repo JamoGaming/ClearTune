@@ -1,0 +1,23 @@
+name: Build ClearTune VST3
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build VST3
+        run: cmake --build build --config Release --target ClearTune_VST3 --parallel
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClearTune-VST3-Windows
+          path: build/ClearTune_artefacts/Release/VST3/ClearTune.vst3
